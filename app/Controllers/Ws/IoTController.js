@@ -1,6 +1,6 @@
 'use strict'
 
-class ServoWsController {
+class IoTController {
   constructor ({ socket, request }) {
     this.socket = socket
     this.socket.emit('message','You are connected with the socket id: ' + socket.id)
@@ -22,7 +22,6 @@ class ServoWsController {
   onMeasure(data){
     this.socket.broadcast('measure',data)
   }
-
 }
 
-module.exports = ServoWsController
+module.exports = IoTController
