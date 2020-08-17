@@ -19,6 +19,10 @@ class ServoWsController {
     this.socket.broadcast('start_servo',data)
   }
 
+  onMeasure(data){
+    this.socket.broadcast('measure',data)
+  }
+
 }
 
 module.exports = ServoWsController
