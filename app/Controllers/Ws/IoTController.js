@@ -1,5 +1,10 @@
 'use strict'
 
+const mongoose = require('mongoose')
+const registersMongo = use('App/Models/Register')
+const activationsMongo = use('App/Models/Activation')
+const document_id = 1
+
 class IoTController {
   constructor ({ socket, request }) {
     this.socket = socket
@@ -16,6 +21,22 @@ class IoTController {
   }
 
   onDispense(data){
+
+    const today = new Date()
+    const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
+    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+    const dateTime = date+' '+time
+
+    const activation = new activationsMongo({
+      _id: new mongoose.Types.ObjectId(),
+      username: Math.random().toString(36).substring(7),
+      date: dateTime
+    })
+
+    let registers = registersMongo.where({document_id: document_id})
+
+    registers.updateOne({$push: {activations: activation}}).exec()
+
     this.socket.broadcast('start_servo',data)
   }
 

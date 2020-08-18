@@ -6,6 +6,8 @@ const Env = use('Env')
 /** @type {import('@adonisjs/ignitor/src/Helpers')} */
 const Helpers = use('Helpers')
 
+const mongoose = require('mongoose');
+
 module.exports = {
   /*
   |--------------------------------------------------------------------------
@@ -17,6 +19,7 @@ module.exports = {
   |
   */
   connection: Env.get('DB_CONNECTION', 'sqlite'),
+  connection2: mongoose.connect(`${Env.get('MONGODB_PROT')}://${Env.get('MONGODB_HOST')}:${Env.get('MONGODB_PORT')}/${Env.get('MONGODB_DATABASE')}`),
 
   /*
   |--------------------------------------------------------------------------

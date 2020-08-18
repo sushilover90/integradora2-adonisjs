@@ -21,3 +21,8 @@ Route.get('/', () => {
 })
 Route.post('/user/register','UserController.register')
 Route.post('/user/login','UserController.logIn')
+
+// Registers (mongodb registers collection)
+Route.get('registers/get' , 'RegisterController.get')
+
+Route.get('test/get','MongoTestController.get')
