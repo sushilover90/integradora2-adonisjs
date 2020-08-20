@@ -49,7 +49,7 @@ class IoTController {
       }
     ).then(result => {
       activations = result
-      this.socket.broadcast('send_activations',activations)
+      this.socket.broadcastToAll('send_activations',activations)
     })
 
   }
