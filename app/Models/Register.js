@@ -19,7 +19,7 @@ class Register extends registersMongoModel {
     return await registersMongoModel.aggregate([
       {$unwind: "$activations"},
       {$match: {"document_id": 1}},
-      {$sort: {"activations.date": 1}},
+      {$sort: {"activations.date": -1}},
       {$group: {_id: "$_id", "activations": {$push: "$activations"}}},
       {$project: {"activations": "$activations"}},
     ])

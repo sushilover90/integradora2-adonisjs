@@ -19,7 +19,11 @@ module.exports = {
   |
   */
   connection: Env.get('DB_CONNECTION', 'sqlite'),
-  connection2: mongoose.connect(`${Env.get('MONGODB_PROT')}://${Env.get('MONGODB_HOST')}:${Env.get('MONGODB_PORT')}/${Env.get('MONGODB_DATABASE')}`),
+  connection2: mongoose.connect(`${Env.get('MONGODB_PROT')}://${Env.get('MONGODB_HOST')}:${Env.get('MONGODB_PORT')}/${Env.get('MONGODB_DATABASE')}`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }),
 
   /*
   |--------------------------------------------------------------------------

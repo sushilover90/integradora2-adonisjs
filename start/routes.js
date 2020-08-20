@@ -24,6 +24,9 @@ Route.get('/', () => {
 Route.post('/user/register','UserController.register')
 Route.post('/user/login','UserController.logIn')
 
+
+// registers route
+Route.get('/registers/getlectures','RegisterController.getLectures')
+
 // verify token route
 Route.get('/token/verify','AuthController.verify').middleware(['auth'])
-Route.get('/token/getlectures','RegisterController.getLectures')

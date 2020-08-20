@@ -5,11 +5,13 @@ const registersMongo = use('App/Models/Register')
 const activationsMongo = use('App/Models/Activation')
 const document_id = 1
 
+
 class IoTController {
   constructor ({ socket, request }) {
     this.socket = socket
     this.socket.emit('message','You are connected with the socket id: ' + socket.id)
     this.request = request
+
   }
 
   onMessage(message){
@@ -29,7 +31,7 @@ class IoTController {
 
     const activation = new activationsMongo({
       _id: new mongoose.Types.ObjectId(),
-      username: Math.random().toString(36).substring(7),
+      username: data.username,
       date: dateTime
     })
 
@@ -38,6 +40,18 @@ class IoTController {
     registers.updateOne({$push: {activations: activation}}).exec()
 
     this.socket.broadcast('start_servo',data)
+
+    let activations
+
+    new Promise(
+      (resolve, reject) => {
+        resolve(registersMongo.getActivations())
+      }
+    ).then(result => {
+      activations = result
+      this.socket.emit('send_activations',activations)
+    })
+
   }
 
   onMeasure(data){
