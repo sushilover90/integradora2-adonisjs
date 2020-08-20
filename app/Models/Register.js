@@ -12,4 +12,20 @@ const registerMongoSchema =  new Schema({
 
 const registersMongoModel = mongoose.model('registers',registerMongoSchema)
 
-module.exports = registersMongoModel
+class Register extends registersMongoModel {
+
+  static async getActivations(){
+
+    return await registersMongoModel.aggregate([
+      {$unwind: "$activations"},
+      {$match: {"document_id": 1}},
+      {$sort: {"activations.date": 1}},
+      {$group: {_id: "$_id", "activations": {$push: "$activations"}}},
+      {$project: {"activations": "$activations"}},
+    ])
+
+  }
+
+}
+
+module.exports = Register

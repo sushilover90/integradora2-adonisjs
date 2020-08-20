@@ -19,5 +19,11 @@ const Route = use('Route')
 Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
+
+// user routes
 Route.post('/user/register','UserController.register')
 Route.post('/user/login','UserController.logIn')
+
+// verify token route
+Route.get('/token/verify','AuthController.verify').middleware(['auth'])
+Route.get('/token/getlectures','RegisterController.getLectures')
