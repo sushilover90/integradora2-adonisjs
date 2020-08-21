@@ -43,10 +43,10 @@ class IoTController {
 
         this.socket.broadcast('start_servo',data)
 
-        resolve(registersMongo.getActivations())
+        resolve(activation)
       }
-    ).then(activations => {
-      this.socket.broadcastToAll('send_activations',activations)
+    ).then(activation => {
+      this.socket.broadcastToAll('send_activations',activation)
     })
 
   }
