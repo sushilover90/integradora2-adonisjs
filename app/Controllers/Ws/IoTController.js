@@ -24,31 +24,28 @@ class IoTController {
 
   onDispense(data){
 
-    const today = new Date()
-    const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
-    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
-    const dateTime = date+' '+time
-
-    const activation = new activationsMongo({
-      _id: new mongoose.Types.ObjectId(),
-      username: data.username,
-      date: dateTime
-    })
-
-    let registers = registersMongo.where({document_id: document_id})
-
-    registers.updateOne({$push: {activations: activation}}).exec()
-
-    this.socket.broadcast('start_servo',data)
-
-    let activations
-
     new Promise(
       (resolve, reject) => {
+        const today = new Date()
+        const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
+        const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+        const dateTime = date+' '+time
+
+        const activation = new activationsMongo({
+          _id: new mongoose.Types.ObjectId(),
+          username: data.username,
+          date: dateTime
+        })
+
+        let registers = registersMongo.where({document_id: document_id})
+
+        registers.updateOne({$push: {activations: activation}}).exec()
+
+        this.socket.broadcast('start_servo',data)
+
         resolve(registersMongo.getActivations())
       }
-    ).then(result => {
-      activations = result
+    ).then(activations => {
       this.socket.broadcastToAll('send_activations',activations)
     })
 
